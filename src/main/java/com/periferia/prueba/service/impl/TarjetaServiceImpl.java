@@ -104,7 +104,7 @@ public class TarjetaServiceImpl implements ITarjetaService {
         Map<String, Object> response = new HashMap<>();
         try {
             tarjetaRepository.deleteById(id);
-            response.put("codigo","01");
+            response.put("codigo","00");
             response.put("mensaje","Se ha eliminado la tarjeta");
         }catch (Exception e){
             response.put("codigo","01");
