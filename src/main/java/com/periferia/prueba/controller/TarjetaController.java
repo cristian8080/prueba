@@ -1,6 +1,6 @@
 package com.periferia.prueba.controller;
 
-import com.periferia.prueba.model.Tarjeta;
+import com.periferia.prueba.entity.Tarjeta;
 import com.periferia.prueba.service.ITarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -36,12 +36,17 @@ public class TarjetaController {
     }
 
     @PutMapping("/activar")
-    public ResponseEntity<?> activarTarjeta(HttpHeaders headers){
-        return null;
+    public ResponseEntity<?> activarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, HttpHeaders headers){
+        try {
+            return new ResponseEntity<>(tarjetaService.activarTarjeta(id,numValidacion,headers), HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getCause());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/consultar")
-    public ResponseEntity<?> consultarTarjeta(HttpHeaders headers){
+    public ResponseEntity<?> consultarTarjeta(@RequestParam("id") Long id, HttpHeaders headers){
         return null;
     }
 
