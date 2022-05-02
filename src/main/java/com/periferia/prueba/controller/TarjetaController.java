@@ -47,11 +47,19 @@ public class TarjetaController {
 
     @GetMapping("/consultar")
     public ResponseEntity<?> consultarTarjeta(@RequestParam("id") Long id, HttpHeaders headers){
-        return null;
+        try {
+            return new ResponseEntity<>(tarjetaService.consultarTarjeta(id,headers), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/eliminar")
-    public ResponseEntity<?> eliminarTarjeta(HttpHeaders headers){
-        return null;
+    public ResponseEntity<?> eliminarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, @RequestHeader String pan, HttpHeaders headers){
+        try {
+            return new ResponseEntity<>(tarjetaService.eliminarTarjeta(id,numValidacion,pan,headers), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

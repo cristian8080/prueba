@@ -78,6 +78,40 @@ public class TarjetaServiceImpl implements ITarjetaService {
         }
     }
 
+    @Override
+    public Map<String, Object> consultarTarjeta(Long id, HttpHeaders headers) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Optional<Tarjeta> tarjeta = tarjetaRepository.findById(id);
+            if (tarjeta.isPresent()){
+                response.put("PAN",enmascarar(tarjeta.get().getPan()));
+                response.put("titular",tarjeta.get().getTitular());
+                response.put("cédula",tarjeta.get().getCedula());
+                response.put("telefono",tarjeta.get().getTelefono());
+                response.put("estado",tarjeta.get().getEstado());
+                return response;
+            }else {
+                throw new Exception();
+            }
+        }catch (Exception e){
+            throw new Exception();
+        }
+    }
+
+    @Override
+    public Map<String, Object> eliminarTarjeta(Long id, Integer numValidacion, String pan, HttpHeaders headers) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            tarjetaRepository.deleteById(id);
+            response.put("codigo","01");
+            response.put("mensaje","Se ha eliminado la tarjeta");
+        }catch (Exception e){
+            response.put("codigo","01");
+            response.put("mensaje","No se ha eliminado la tarjeta");
+        }
+        return response;
+    }
+
     private String enmascarar(String enmascara){
         StringBuilder str = new StringBuilder(enmascara.length());
         for (int i = 0;i<enmascara.length();i++){
