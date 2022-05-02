@@ -8,9 +8,9 @@ import com.periferia.prueba.service.ITransansactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
@@ -31,7 +31,7 @@ public class TransansactionServiceImpl implements ITransansactionService {
 
 
     @Override
-    public Map<String, Object> registrarTransaccion(Transaction transaction, HttpHeaders headers){
+    public Map<String, Object> registrarTransaccion(Transaction transaction, HttpServletRequest headers){
         Map<String, Object> response = new HashMap<>();
         try {
             Map<String, Object> tarjeta = tarjetaService.consultarTarjeta(transaction.getIdTarjeta(),headers);
@@ -57,7 +57,7 @@ public class TransansactionServiceImpl implements ITransansactionService {
     }
 
     @Override
-    public Map<String, Object> anularTransaccion(Long id, Integer reference, Integer totalCompra, HttpHeaders headers) {
+    public Map<String, Object> anularTransaccion(Long id, Integer reference, Integer totalCompra, HttpServletRequest headers) {
         Map<String, Object> response = new HashMap<>();
         try {
             Optional<Transaction> transaction = transansactionRespository.findById(id);

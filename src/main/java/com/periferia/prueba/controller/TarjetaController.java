@@ -5,22 +5,24 @@ import com.periferia.prueba.service.ITarjetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
-@RequestMapping("/tarjeta")
+@RestController
+@RequestMapping(value = "tarjeta")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TarjetaController {
 
     @Autowired
     ITarjetaService tarjetaService;
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> crearTarjeta(@RequestBody Tarjeta tarjeta, HttpHeaders headers){
+    @PostMapping(value = "/crear", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> crearTarjeta(@RequestBody Tarjeta tarjeta, HttpServletRequest headers){
         Map<String,Object> response = new HashMap<>();
         try{
             Tarjeta tarjetaCreada = tarjetaService.crearTarjeta(tarjeta, headers);
@@ -35,8 +37,8 @@ public class TarjetaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/activar")
-    public ResponseEntity<?> activarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, HttpHeaders headers){
+    @PutMapping(value = "/activar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> activarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, HttpServletRequest headers){
         try {
             return new ResponseEntity<>(tarjetaService.activarTarjeta(id,numValidacion,headers), HttpStatus.OK);
         }catch (Exception e){
@@ -45,8 +47,8 @@ public class TarjetaController {
         }
     }
 
-    @GetMapping("/consultar")
-    public ResponseEntity<?> consultarTarjeta(@RequestParam("id") Long id, HttpHeaders headers){
+    @GetMapping(value = "/consultar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> consultarTarjeta(@RequestParam("id") Long id, HttpServletRequest headers){
         try {
             return new ResponseEntity<>(tarjetaService.consultarTarjeta(id,headers), HttpStatus.OK);
         }catch (Exception e){
@@ -54,8 +56,8 @@ public class TarjetaController {
         }
     }
 
-    @DeleteMapping("/eliminar")
-    public ResponseEntity<?> eliminarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, @RequestHeader String pan, HttpHeaders headers){
+    @DeleteMapping(value = "/eliminar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> eliminarTarjeta(@RequestHeader Long id, @RequestHeader Integer numValidacion, @RequestHeader String pan, HttpServletRequest headers){
         try {
             return new ResponseEntity<>(tarjetaService.eliminarTarjeta(id,numValidacion,pan,headers), HttpStatus.OK);
         } catch (Exception e) {

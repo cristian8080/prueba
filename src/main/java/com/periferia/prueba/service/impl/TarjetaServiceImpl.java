@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.HttpHeaders;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static org.springframework.data.mongodb.core.FindAndModifyOptions.options;
@@ -29,7 +30,7 @@ public class TarjetaServiceImpl implements ITarjetaService {
 
     @Override
     @Transactional
-    public Tarjeta crearTarjeta(Tarjeta tarjeta, HttpHeaders headers) throws Exception {
+    public Tarjeta crearTarjeta(Tarjeta tarjeta, HttpServletRequest headers) throws Exception {
         try{
             tarjeta.setId(generateSequence(tarjeta.SEQUENCE_NAME));
             Random rd = new Random();
@@ -49,7 +50,7 @@ public class TarjetaServiceImpl implements ITarjetaService {
     }
 
     @Override
-    public Map<String, Object> activarTarjeta(Long id, Integer numValidacion, HttpHeaders headers) throws Exception {
+    public Map<String, Object> activarTarjeta(Long id, Integer numValidacion, HttpServletRequest headers) throws Exception {
         Map<String, Object> response = new HashMap<>();
         try {
             Optional<Tarjeta> tarjeta = tarjetaRepository.findById(id);
@@ -79,7 +80,7 @@ public class TarjetaServiceImpl implements ITarjetaService {
     }
 
     @Override
-    public Map<String, Object> consultarTarjeta(Long id, HttpHeaders headers) throws Exception {
+    public Map<String, Object> consultarTarjeta(Long id, HttpServletRequest headers) throws Exception {
         Map<String, Object> response = new HashMap<>();
         try {
             Optional<Tarjeta> tarjeta = tarjetaRepository.findById(id);
@@ -99,7 +100,7 @@ public class TarjetaServiceImpl implements ITarjetaService {
     }
 
     @Override
-    public Map<String, Object> eliminarTarjeta(Long id, Integer numValidacion, String pan, HttpHeaders headers) throws Exception {
+    public Map<String, Object> eliminarTarjeta(Long id, Integer numValidacion, String pan, HttpServletRequest headers) throws Exception {
         Map<String, Object> response = new HashMap<>();
         try {
             tarjetaRepository.deleteById(id);
