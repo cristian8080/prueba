@@ -67,7 +67,7 @@ public class TransansactionServiceImpl implements ITransansactionService {
                     response.put("mensaje","numero de referencia inválido");
                     return response;
                 }
-                if (evaluarfecha(transaction.get().getFecha(),new Date())){
+                if (evaluarfecha(new Date(),transaction.get().getFecha())){
                     transaction.get().setEstado("Anulado");
                     transansactionRespository.save(transaction.get());
                     response.put("codigo","00");
